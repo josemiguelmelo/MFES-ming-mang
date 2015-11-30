@@ -25,8 +25,6 @@ operations
 			dcl position : Position;
 			for j = 1 to board_size by 1 do
 			(
-				pieceType := <UNDEFINED>;
-				
 				if i = 1 then
 				(	pieceType := <BLACK>; );
 				if i = board_size then
@@ -35,7 +33,6 @@ operations
 				(pieceType := <WHITE>; );
 				if j = board_size then
 				(	pieceType := <BLACK>; );
-				
 			
 			
 				position := new Position(j,i, pieceType);

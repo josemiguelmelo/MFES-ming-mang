@@ -25,17 +25,14 @@ operations
 			dcl position : Position;
 			for j = 1 to board_size by 1 do
 			(
-				pieceType := <UNDEFINED>;
-				
-				if i = 1 then
-				(	pieceType := <BLACK>; );
-				if i = board_size then
+				if i = 0 then
 				(	pieceType := <WHITE>; );
-				if j = 1 then
-				(pieceType := <WHITE>; );
-				if j = board_size then
+				if i = board_size then
 				(	pieceType := <BLACK>; );
-				
+				if j = 0 then
+				(pieceType := <BLACK>; );
+				if j = board_size then
+				(	pieceType := <WHITE>; );
 			
 			
 				position := new Position(j,i, pieceType);
@@ -55,17 +52,6 @@ operations
 	public getNumPositions : () ==> nat
 	getNumPositions() == ( return numPositions; );
 	
-	public numPieces : Piece`PieceType ==> nat
-	numPieces(pieceType) == (
-		dcl counter : nat := 0;
-		
-		for all position in set board do 
-		(
-				if position.getPieceType() = pieceType then
-						counter := counter + 1;
-		);
-		return counter;
-	);
 	
 functions
 -- TODO Define functiones here
