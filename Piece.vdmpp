@@ -1,14 +1,33 @@
 class Piece
-types
--- TODO Define types here
-values
--- TODO Define values here
-instance variables
--- TODO Define instance variables here
-operations
--- TODO Define operations here
-functions
--- TODO Define functiones here
-traces
--- TODO Define Combinatorial Test Traces here
+	types
+	values
+	-- TODO Define values here
+	
+	
+	instance variables
+		
+		private position : Position;
+		private player : Player;
+		
+	operations
+
+		public Piece: Player * Position ==> Piece
+  	Piece(pl, pos) == (player := pl; position := pos; return self;);
+    
+    public getPosition : () ==> Position
+	  getPosition() == (return position;);
+	  
+	  public setPosition : Position ==> ()
+	  setPosition(pos) == (position := pos;);
+	  
+	  public getPlayer : () ==> Player
+	  getPlayer() == (return player;);
+	  
+	  public setPlayer : Player ==> ()
+	  setPlayer(pla) == (player := pla;)
+    
+	functions
+	-- TODO Define functiones here
+	traces
+	-- TODO Define Combinatorial Test Traces here
 end Piece

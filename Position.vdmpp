@@ -1,0 +1,32 @@
+class Position
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+	
+		private x : nat;
+		private y : nat;
+		
+		
+operations
+		public Position: nat * nat ==> Position
+  	Position(xPos, yPos) == (x := xPos; y := yPos; );
+  	
+  	public getX : () ==> nat
+  	getX() == (return x;);
+  	
+  	public getY : () ==> nat
+  	getY() == (return y;);
+  	
+  	public setX : nat ==> ()
+  	setX(xPos) == (x := xPos;);
+  	
+  	public setY : nat ==> ()
+  	setY(yPos) == (y := yPos;);
+  	
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Position

@@ -4,9 +4,30 @@ types
 values
 -- TODO Define values here
 instance variables
--- TODO Define instance variables here
+	
+	private totalPieces : nat;
+	
+	inv totalPieces >= 0;
+	
+	
+	
 operations
--- TODO Define operations here
+
+	public Player : nat ==> Player
+	Player(numPieces) == (
+		totalPieces := numPieces;
+		return self;
+	);
+	
+	public getTotalPieces : () ==> nat
+	getTotalPieces() == ( return totalPieces; );
+	
+	public decNumPieces : () ==> ()
+	decNumPieces() == ( totalPieces := totalPieces - 1; );
+	public incNumPieces : () ==> ()
+	incNumPieces() == ( totalPieces := totalPieces + 1; );
+	
+	
 functions
 -- TODO Define functiones here
 traces
