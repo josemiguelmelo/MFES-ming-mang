@@ -1,0 +1,122 @@
+class Board
+types
+
+
+values
+-- TODO Define values here
+instance variables
+	public board : set of Position;
+	public boardSize : nat;
+	public numPositions :nat;
+	
+	inv boardSize > 7;
+
+operations
+	
+	public Board : nat * Player * Player ==> Board
+	Board(board_size, playerX, playerY) == (
+		boardSize := board_size;
+		board := {};
+		numPositions := 0;
+		
+		init(playerX, playerY);
+		
+		return self;
+	);
+	
+	/**
+		Inititalize board 
+	*/
+	public init : Player * Player ==> ()
+	init(playerX, playerY) == 
+	(
+		for i = 1 to boardSize by 1 do
+		(
+			dcl pieceType : Piece`PieceType := Piece`UndefinedType;
+			dcl position : Position;
+			for j = 1 to boardSize by 1 do
+			(
+				pieceType := Piece`UndefinedType;
+				
+				if i = 1 then
+				(	pieceType := playerY.getPieceType(); );
+				if i = boardSize then
+				(	pieceType := playerX.getPieceType(); );
+				if j = 1 then
+				(pieceType := playerX.getPieceType(); );
+				if j = boardSize then
+				(	pieceType := playerY.getPieceType(); );
+			
+				position := new Position(new Coordinates(j, i), pieceType);
+				board := board union {position};
+				
+			);
+		);
+		
+		
+		numPositions := card board;
+	);
+	
+	public getBoardSize : () ==> nat
+	getBoardSize() == ( return boardSize; );
+	
+	public getNumPositions : () ==> nat
+	getNumPositions() == ( return numPositions; );
+	
+	public numPieces : Piece`PieceType ==> nat
+	numPieces(pieceType) == (
+		dcl counter : nat := 0;
+		
+		for all position in set board do 
+		(
+				if position.getPieceType() = pieceType then
+						counter := counter + 1;
+		);
+		return counter;
+	);
+	
+	
+	public removePosition : Position ==> ()
+	removePosition(pos) == (
+			board := board \ { pos };
+			numPositions := card board ;
+	)
+	pre pos in set board
+	post pos not in set board;
+	
+	public insertPosition : Position ==> ()
+	insertPosition(pos) == (
+			board := board union {pos};
+			numPositions := card board ;
+	)
+	pre pos not in set board
+	post pos in set board;
+	
+	public getPieceTypeAtPosition : Coordinates ==> Piece`PieceType
+	getPieceTypeAtPosition(coord) ==
+	(
+			return getPieceAt(coord).pieceType;
+	)
+	pre boardSize >= coord.x and boardSize >= coord.y;
+	
+	public getPieceAt : Coordinates ==> Position
+	getPieceAt(coord) ==
+	(
+			dcl pieceType : Position ;
+			
+			for all position in set board do 
+			(
+					if position.compareToPositionCoordinates(coord) then
+							pieceType := position;
+			);
+			
+			return pieceType;
+	)
+	pre boardSize >= coord.x and boardSize >= coord.y;
+	
+	
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Board
