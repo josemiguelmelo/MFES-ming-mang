@@ -6,12 +6,66 @@ values
 -- TODO Define values here
 instance variables
 	public board : Board;
+	public playerX : Player;
+	public playerY : Player;
+	
+	public currentPlayer : Player;
+	
 operations
 	public MingMang : nat ==> MingMang
 	MingMang(board_size) == (
-		board := new Board(board_size);
+		dcl playerPieces : nat := (board_size-1) * 2;
+		
+		playerX := new Player(playerPieces, Piece`WhiteType);
+		playerY := new Player(playerPieces, Piece`BlackType);
+		currentPlayer := playerX;
+		
+		board := new Board(board_size, playerX, playerY);
+		
 		return self;
-	);
+	)
+	pre board_size > 6
+	post playerX.totalPieces = (board.boardSize-1)*2 
+	and playerY.totalPieces = (board.boardSize-1)*2 
+	and board.boardSize > 6;
+	
+	
+	/** change player **/
+	public changeCurrentPlayer : () ==> Player
+	changeCurrentPlayer() == (
+			if currentPlayer = playerX then
+					currentPlayer := playerY
+			else 
+					currentPlayer := playerX;
+					
+			return currentPlayer;
+	)
+	pre (currentPlayer = playerX or currentPlayer = playerY)
+	post (currentPlayer = playerX or currentPlayer = playerY);
+	
+	/** **/
+	public emptyPosition : Coordinates ==> Position
+	emptyPosition(coord) == ( return new Position(coord, Piece`UndefinedType));
+	
+	public eat : Position * Position ==> ()
+	eat(toEat, willEat) == ( return);
+	
+	public movePiece : Position * Position ==> ()
+	movePiece(fromPosition, toPosition) == (
+			board.removePosition(toPosition);
+			board.removePosition(fromPosition);
+			board.insertPosition(new Position(toPosition.coord, currentPlayer.getPieceType()));
+			board.insertPosition(emptyPosition(fromPosition.coord) );
+			return
+	)
+	pre (currentPlayer = playerX or currentPlayer = playerY)
+	and fromPosition.coord.x = toPosition.coord.x or fromPosition.coord.y = toPosition.coord.y
+	and fromPosition in set board.board
+	and toPosition in set board.board
+	and toPosition.pieceType = Piece`UndefinedType
+	and fromPosition.pieceType = currentPlayer.pieceType
+	post board.numPositions = board.boardSize * board.boardSize;
+	
 functions
 -- TODO Define functiones here
 traces

@@ -1,0 +1,94 @@
+class MingMang
+types
+
+
+values
+-- TODO Define values here
+instance variables
+	public board : Board;
+	public playerX : Player;
+	public playerY : Player;
+	
+	public currentPlayer : Player;
+	
+operations
+	public MingMang : nat ==> MingMang
+	MingMang(board_size) == (
+		dcl playerPieces : nat := (board_size-1) * 2;
+		
+		playerX := new Player(playerPieces, Piece`WhiteType);
+		playerY := new Player(playerPieces, Piece`BlackType);
+		currentPlayer := playerX;
+		
+		board := new Board(board_size, playerX, playerY);
+		
+		return self;
+	)
+	pre board_size > 6
+	post playerX.totalPieces = (board.boardSize-1)*2 
+	and playerY.totalPieces = (board.boardSize-1)*2 
+	and board.boardSize > 6;
+	
+	
+	/** change player **/
+	public changeCurrentPlayer : () ==> Player
+	changeCurrentPlayer() == (
+			if currentPlayer = playerX then
+					currentPlayer := playerY
+			else 
+					currentPlayer := playerX;
+					
+			return currentPlayer;
+	)
+	pre (currentPlayer = playerX or currentPlayer = playerY)
+	post (currentPlayer = playerX or currentPlayer = playerY);
+	
+	public emptyPosition : Coordinates ==> Position
+	emptyPosition(coord) == ( return new Position(coord.x, coord.y, Piece`UndefinedType));
+	
+	public movePiece : Coordinates * Coordinates ==> ()
+	movePiece(fromCoord, toCoord) == (
+			board.removePosition(board.getPieceAt(toCoord));
+			return
+	)
+	pre (currentPlayer = playerX or currentPlayer = playerY)
+	and fromCoord.x = toCoord.x or fromCoord.y = toCoord.y;
+	
+	/** Checks if a position is empty */
+	public isPositionEmpty : Coordinates ==> bool
+	isPositionEmpty(coord) == (
+			return board.getPieceTypeAtPosition( coord ) = Piece`UndefinedType;
+	)
+	pre coord.x > 0 and coord.x <= board.boardSize and coord.y > 0 and coord.y <= board.boardSize ;
+	
+	
+	public isPositionOccupiedByPlayer : Coordinates * Player ==> bool
+	isPositionOccupiedByPlayer(coord, player) == (
+			return board.getPieceTypeAtPosition(coord) = player.getPieceType();
+	)
+	pre coord.x > 0 and coord.x <= board.boardSize and coord.y > 0 and coord.y <= board.boardSize
+	and (player = playerX or player = playerY);
+	
+	
+	/** check if a move is valid **/
+	public isMoveValid : Coordinates * Coordinates ==>  bool
+	isMoveValid(fromCoordinates, toCoordinates) == (
+		return 
+				/** to position ---> empty ? **/
+				isPositionEmpty(toCoordinates) 
+				/** from position ----> has player piece ? **/
+				and isPositionOccupiedByPlayer(fromCoordinates, currentPlayer);
+	)
+	/** horizontal or vertical move? **/
+	pre fromCoordinates.x = toCoordinates.x or fromCoordinates.y = toCoordinates.y;
+	
+	
+	
+	
+	
+	
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end MingMang

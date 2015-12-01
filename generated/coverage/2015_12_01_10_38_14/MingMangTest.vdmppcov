@@ -1,0 +1,133 @@
+class MingMangTest
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+	private boardSize : nat := 8;
+	private mingmangGame : MingMang := new MingMang(boardSize);
+	
+operations
+
+		private assertTrue: bool ==> ()
+              assertTrue(cond) == return
+              pre cond;
+                
+    private testMingMangBoardCreation: () ==> ()
+    testMingMangBoardCreation() ==
+    (
+				
+          assertTrue(mingmangGame.board.getBoardSize() = boardSize);
+          assertTrue(mingmangGame.board.getNumPositions() = boardSize*boardSize);
+          
+          
+          assertTrue(mingmangGame.board.numPieces(Piece`WhiteType) = (boardSize-1)*2);
+          assertTrue(mingmangGame.board.numPieces(Piece`BlackType) = (boardSize-1)*2);
+          assertTrue(mingmangGame.board.numPieces(Piece`UndefinedType) = ((boardSize*boardSize)-(4*(boardSize-1))));
+    );
+    
+    private testMingMangPlayersCreation: () ==> ()
+    testMingMangPlayersCreation() ==
+    (
+    		dcl playerX : Player := mingmangGame.playerX;
+    		dcl playerY : Player := mingmangGame.playerY;
+    		dcl board : Board := mingmangGame.board;
+    		
+    		
+				assertTrue(playerX.getTotalPieces() = (boardSize-1)*2);
+				assertTrue(playerY.getTotalPieces() = (boardSize-1)*2);
+				
+				assertTrue(playerX.getPieceType() <> playerY.getPieceType());
+				assertTrue(playerX.getPieceType() <> Piece`UndefinedType);
+				assertTrue(playerY.getPieceType() <> Piece`UndefinedType);
+				
+				
+				assertTrue(board.numPieces(playerX.getPieceType()) = playerX.getTotalPieces());
+				assertTrue(board.numPieces(playerY.getPieceType()) = playerY.getTotalPieces());
+				
+				assertTrue( mingmangGame.currentPlayer = playerY or mingmangGame.currentPlayer = playerX );
+    );
+    
+    
+    
+    private testMingMangChangeCurrentPlayer: () ==> ()
+    testMingMangChangeCurrentPlayer() ==
+    (
+    		dcl playerX : Player := mingmangGame.playerX;
+    		dcl playerY : Player := mingmangGame.playerY;
+				dcl currentPlayer : Player := mingmangGame.currentPlayer;
+    		dcl initialPlayer : Player := currentPlayer;
+    		
+				assertTrue( currentPlayer = playerY or currentPlayer = playerX );
+    		
+				currentPlayer := mingmangGame.changeCurrentPlayer();
+				
+				assertTrue( (currentPlayer = playerY or currentPlayer = playerX) and currentPlayer <> initialPlayer );
+    );
+    
+    
+    
+    private testMingMangPositionEmpty: () ==> ()
+    testMingMangPositionEmpty() ==
+    (
+    		/* not empty positions */
+				assertTrue( mingmangGame.isPositionEmpty(new Coordinates(1,1)) = false );
+				assertTrue( mingmangGame.isPositionEmpty(new Coordinates(8,8)) = false );
+				assertTrue( mingmangGame.isPositionEmpty(new Coordinates(1,2)) = false );
+				
+    		/* empty positions */
+				assertTrue( mingmangGame.isPositionEmpty(new Coordinates(2,2))  );
+				assertTrue( mingmangGame.isPositionEmpty(new Coordinates(5,7))  );
+				assertTrue( mingmangGame.isPositionEmpty(new Coordinates(4,2))  );
+		);
+		
+		private testMingMangValidMove: () ==> ()
+		testMingMangValidMove() ==
+		(
+				dcl c : Coordinates := new Coordinates(8,7);
+				
+				/** Valid move **/
+				assertTrue( mingmangGame.currentPlayer.getPieceType() <> mingmangGame.board.getPieceTypeAtPosition(new Coordinates(1,1)));
+				assertTrue( mingmangGame.isMoveValid(new Coordinates(1,1), new Coordinates(1,2)) = false );
+				
+				/** Invalid move **/
+				assertTrue( mingmangGame.currentPlayer.getPieceType() = mingmangGame.board.getPieceTypeAtPosition(new Coordinates(8,8)));
+				assertTrue( mingmangGame.isMoveValid(new Coordinates(8,7), new Coordinates(2,7)) );
+				
+				
+				/** Check if position set empty **/
+				assertTrue( mingmangGame.board.getPieceTypeAtPosition(new Coordinates(8,7))  <> Piece`UndefinedType);
+				mingmangGame.board.setPositionEmpty(new Coordinates(8,7));
+				assertTrue( mingmangGame.board.getPieceTypeAtPosition(new Coordinates(8,7))  = Piece`UndefinedType);
+				
+				mingmangGame.board.removePosition(new Coordinates(8,7));
+				
+				for all pos in set mingmangGame.board.board do
+				( 	
+						dcl c2 : Coordinates := new Coordinates(pos.x, pos.y);
+						assertTrue( c.compare(c2) = false ); 
+				)
+				
+		
+		);
+    
+    
+    public static main: () ==> ()
+    main() ==
+    (
+            dcl test : MingMangTest := new MingMangTest();
+            test.testMingMangBoardCreation();
+            test.testMingMangPlayersCreation();
+            test.testMingMangChangeCurrentPlayer();
+            test.testMingMangPositionEmpty();
+            test.testMingMangValidMove();
+    );
+                
+    
+              
+               
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end MingMangTest
