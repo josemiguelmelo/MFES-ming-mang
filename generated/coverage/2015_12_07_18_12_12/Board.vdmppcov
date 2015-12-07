@@ -3,7 +3,7 @@ types
 
 
 values
-	public MinBoardSize = 1;
+	public MinBoardSize = 4;
 instance variables
 	public board : set of Position;
 	public boardSize : nat;

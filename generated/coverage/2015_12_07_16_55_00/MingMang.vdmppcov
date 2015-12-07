@@ -29,10 +29,10 @@ operations
 		
 		return self;
 	)
-	pre board_size > Board`MinBoardSize
+	pre board_size > 6
 	post playerX.totalPieces = (board.boardSize-1)*2 
 	and playerY.totalPieces = (board.boardSize-1)*2 
-	and board.boardSize > Board`MinBoardSize;
+	and board.boardSize > 6;
 	
 	public printBoard : () ==> ()
 	printBoard() ==
@@ -128,25 +128,15 @@ operations
 		leftC.x := upC.x-1;
 		rightC.x := upC.x+1;
 		
-		if(upC.y < 1) then
-			upC := p.coord;
-		if(downC.y > board.boardSize) then
-			downC := p.coord;
-		if(leftC.x < 1) then
-			rightC := p.coord;
-		if(rightC.x > board.boardSize) then
-			rightC := p.coord;
-			
-		
 		upPos := board.getPieceAt(upC);
 		downPos := board.getPieceAt(downC);
 		leftPos := board.getPieceAt(leftC);
 		rightPos := board.getPieceAt(rightC);
 		
-		if (upPos.pieceType = Piece`UndefinedType or	
-		downPos.pieceType = Piece`UndefinedType or	
-		leftPos.pieceType = Piece`UndefinedType or	
-		rightPos.pieceType = Piece`UndefinedType) then
+		if (upPos.pieceType <> Piece`UndefinedType or	
+		downPos.pieceType <> Piece`UndefinedType or	
+		leftPos.pieceType <> Piece`UndefinedType or	
+		rightPos.pieceType <> Piece`UndefinedType) then
 		(
 			return true;
 		);
@@ -210,7 +200,7 @@ operations
 		
 			for all pos in set board.board do
 			(
-					if (pos.coord.x > 1 and pos.coord.x < board.boardSize and pos.coord.y > 1 and pos.coord.y < board.boardSize and pos.pieceType <> Piece`UndefinedType) then
+					if (pos.coord.x > 1 and pos.coord.x < 8 and pos.coord.y > 1 and pos.coord.y < 8 and pos.pieceType <> Piece`UndefinedType) then
 					(
 							if canCapture(pos) then
 									capture(pos, getOtherPlayerPieceType(pos.pieceType) );

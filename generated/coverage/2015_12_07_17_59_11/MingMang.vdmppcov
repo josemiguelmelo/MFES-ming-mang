@@ -29,10 +29,10 @@ operations
 		
 		return self;
 	)
-	pre board_size > Board`MinBoardSize
+	pre board_size > 4
 	post playerX.totalPieces = (board.boardSize-1)*2 
 	and playerY.totalPieces = (board.boardSize-1)*2 
-	and board.boardSize > Board`MinBoardSize;
+	and board.boardSize > 4;
 	
 	public printBoard : () ==> ()
 	printBoard() ==
@@ -128,25 +128,15 @@ operations
 		leftC.x := upC.x-1;
 		rightC.x := upC.x+1;
 		
-		if(upC.y < 1) then
-			upC := p.coord;
-		if(downC.y > board.boardSize) then
-			downC := p.coord;
-		if(leftC.x < 1) then
-			rightC := p.coord;
-		if(rightC.x > board.boardSize) then
-			rightC := p.coord;
-			
-		
 		upPos := board.getPieceAt(upC);
 		downPos := board.getPieceAt(downC);
 		leftPos := board.getPieceAt(leftC);
 		rightPos := board.getPieceAt(rightC);
 		
-		if (upPos.pieceType = Piece`UndefinedType or	
-		downPos.pieceType = Piece`UndefinedType or	
-		leftPos.pieceType = Piece`UndefinedType or	
-		rightPos.pieceType = Piece`UndefinedType) then
+		if (upPos.pieceType <> Piece`UndefinedType or	
+		downPos.pieceType <> Piece`UndefinedType or	
+		leftPos.pieceType <> Piece`UndefinedType or	
+		rightPos.pieceType <> Piece`UndefinedType) then
 		(
 			return true;
 		);

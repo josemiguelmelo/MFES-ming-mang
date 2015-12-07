@@ -3,13 +3,13 @@ types
 
 
 values
-	public MinBoardSize = 1;
+-- TODO Define values here
 instance variables
 	public board : set of Position;
 	public boardSize : nat;
 	public numPositions :nat;
 	
-	inv boardSize > Board`MinBoardSize;
+	inv boardSize > 3;
 
 operations
 	
