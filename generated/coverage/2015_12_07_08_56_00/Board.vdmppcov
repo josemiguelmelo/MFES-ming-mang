@@ -24,19 +24,6 @@ operations
 		return self;
 	);
 	
-	public Board : nat * Player * Player * bool ==> Board
-	Board(board_size, playerX, playerY, allBlack) == (
-			boardSize := board_size;
-			board := {};
-			numPositions := 0;
-			if allBlack then
-			initAllPiecesBlack(playerX, playerY)
-			else
-			init(playerX, playerY);
-			
-			return self;
-	);
-	
 	/**
 		Inititalize board 
 	*/
@@ -57,39 +44,6 @@ operations
 				(	pieceType := playerX.getPieceType(); );
 				if j = 1 then
 				(pieceType := playerX.getPieceType(); );
-				if j = boardSize then
-				(	pieceType := playerY.getPieceType(); );
-			
-				position := new Position(new Coordinates(j, i), pieceType);
-				board := board union {position};
-				
-			);
-		);
-		
-		
-		numPositions := card board;
-	);
-	
-	/**
-		Inititalize board with any white piece
-	*/
-	public initAllPiecesBlack : Player * Player ==> ()
-	initAllPiecesBlack(playerX, playerY) == 
-	(
-		for i = 1 to boardSize by 1 do
-		(
-			dcl pieceType : Piece`PieceType := Piece`UndefinedType;
-			dcl position : Position;
-			for j = 1 to boardSize by 1 do
-			(
-				pieceType := Piece`UndefinedType;
-				
-				if i = 1 then
-				(	pieceType := playerY.getPieceType(); );
-				if i = boardSize then
-				(	pieceType := playerY.getPieceType(); );
-				if j = 1 then
-				(pieceType := playerY.getPieceType(); );
 				if j = boardSize then
 				(	pieceType := playerY.getPieceType(); );
 			

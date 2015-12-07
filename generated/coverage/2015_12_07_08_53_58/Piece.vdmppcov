@@ -1,9 +1,9 @@
 class Piece
 	types
-		public PieceType = <EMPTY> | <BLACK> | <WHITE>;
+		public PieceType = <UNDEFINED> | <BLACK> | <WHITE>;
 	
 	values
-		public UndefinedType = <EMPTY>;
+		public UndefinedType = <UNDEFINED>;
 		public BlackType = <BLACK>;
 		public WhiteType = <WHITE>;
 	

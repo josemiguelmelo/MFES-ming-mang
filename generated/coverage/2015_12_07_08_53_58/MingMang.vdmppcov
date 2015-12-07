@@ -29,23 +29,6 @@ operations
 	and playerY.totalPieces = (board.boardSize-1)*2 
 	and board.boardSize > 6;
 	
-	public printBoard : () ==> ()
-	printBoard() ==
-	(
-		IO`print("\n");
-		for counter1 = 1 to board.boardSize do
-		(
-			for counter2 = 1 to board.boardSize do
-			(
-				IO`print(board.getPieceTypeAtPosition(new Coordinates(counter2, counter1)));
-			);
-			IO`print("\n");
-		);
-		
-		IO`print("\nPlayer ");
-		IO`print(currentPlayer.pieceType);
-	);
-	
 	
 	/** change player **/
 	public changeCurrentPlayer : () ==> Player
@@ -106,88 +89,18 @@ operations
 			return checkHorizontalCapture(position) or checkVerticalCapture(position);
 	);
 	
-	public hasPossibleMoves : Position ==> bool
-	hasPossibleMoves(p) ==
-	(
-		dcl upPos : Position;
-		dcl downPos : Position;
-		dcl leftPos : Position;
-		dcl rightPos : Position;
-		
-		dcl upC : Coordinates := p.coord;
-		dcl downC : Coordinates := p.coord;
-		dcl leftC : Coordinates := p.coord;
-		dcl rightC : Coordinates := p.coord;
-		upC.y := upC.y-1;
-		downC.y := upC.y+1;
-		leftC.x := upC.x-1;
-		rightC.x := upC.x+1;
-		
-		upPos := board.getPieceAt(upC);
-		downPos := board.getPieceAt(downC);
-		leftPos := board.getPieceAt(leftC);
-		rightPos := board.getPieceAt(rightC);
-		
-		if (upPos.pieceType <> Piece`UndefinedType or	
-		downPos.pieceType <> Piece`UndefinedType or	
-		leftPos.pieceType <> Piece`UndefinedType or	
-		rightPos.pieceType <> Piece`UndefinedType) then
-		(
-			return true;
-		);
-		
-		return false;
-	);
-	
-	public isGameFinished : () ==> bool
-	isGameFinished() == (
-		if(playerX.totalPieces = 0 or playerY.totalPieces = 0) then return true;
-		
-		for counter1 = 1 to board.boardSize do
-		(
-			for counter2 = 1 to board.boardSize do
-			(
-				if board.getPieceTypeAtPosition(new Coordinates(counter2, counter1)) = nextPlayer().pieceType then
-				(
-					if hasPossibleMoves(board.getPieceAt(new Coordinates(counter2, counter1))) = false then
-						return false;
-				);
-				
-			);
-		);
-		return true;
-	);
-	
 	/** capture position **/
 	public capture : Position * Piece`PieceType ==> ()
 	capture(toEat, playerWillEat) == ( 		
-			dcl iniPlayer : Player := currentPlayer;
 			board.removePosition(toEat);
 			toEat.setPieceType(playerWillEat);
 			board.insertPosition(toEat);
-			if currentPlayer = playerX then
-			(
-				playerX.totalPieces := playerX.totalPieces + 1;
-				playerY.totalPieces := playerY.totalPieces - 1;
-			) else (
-				playerX.totalPieces := playerX.totalPieces - 1;
-				playerY.totalPieces := playerY.totalPieces + 1;
-			);
 			return;
 	)
 	pre (playerWillEat = playerX.pieceType or playerWillEat = playerY.pieceType)
 	and toEat.pieceType <> Piece`UndefinedType
 	post toEat in set board.board
 	and toEat.pieceType = playerWillEat;
-	
-	
-	public move : Coordinates * Coordinates ==> ()
-	move(fromC, toC) ==
-	(
-		dcl player : Player;
-		movePiece(board.getPieceAt(fromC), board.getPieceAt(toC));
-		player := changeCurrentPlayer();
-	);
 	
 	/** move piece from position to position **/
 	public movePiece : Position * Position ==> ()
@@ -205,6 +118,8 @@ operations
 									capture(pos, getOtherPlayerPieceType(pos.pieceType) );
 					)
 			);
+			
+			
 			return
 	)
 	pre (currentPlayer = playerX or currentPlayer = playerY)

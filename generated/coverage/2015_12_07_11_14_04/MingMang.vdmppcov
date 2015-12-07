@@ -161,10 +161,14 @@ operations
 	/** capture position **/
 	public capture : Position * Piece`PieceType ==> ()
 	capture(toEat, playerWillEat) == ( 		
-			dcl iniPlayer : Player := currentPlayer;
 			board.removePosition(toEat);
 			toEat.setPieceType(playerWillEat);
 			board.insertPosition(toEat);
+			IO`print(playerX.totalPieces);
+			IO`print("\n");
+			IO`print(playerY.totalPieces);
+			IO`print("\n");
+			IO`print(currentPlayer.totalPieces);
 			if currentPlayer = playerX then
 			(
 				playerX.totalPieces := playerX.totalPieces + 1;
@@ -178,6 +182,7 @@ operations
 	pre (playerWillEat = playerX.pieceType or playerWillEat = playerY.pieceType)
 	and toEat.pieceType <> Piece`UndefinedType
 	post toEat in set board.board
+	and (currentPlayer.totalPieces = playerX.totalPieces + 1 or currentPlayer.totalPieces = playerY.totalPieces + 1)
 	and toEat.pieceType = playerWillEat;
 	
 	

@@ -133,17 +133,6 @@ operations
 		);
     
     
-		private testMingMangEndGame : () ==> ()
-		testMingMangEndGame() == (
-				
-				dcl boardEnd : Board := new Board(boardSize, mingmangGame.playerX, mingmangGame.playerY, true);
-				
-				mingmangGame.board := boardEnd;
-				
-				assertTrue(mingmangGame.isGameFinished() = true);
-		);
-    
-    
     public static main: () ==> ()
     main() ==
     (
@@ -154,7 +143,6 @@ operations
             test.testMingMangRemovePosition();
             test.testMingMangMove();
             test.testMingMangCapturePiece();
-            test.testMingMangEndGame();
     );
                 
     
