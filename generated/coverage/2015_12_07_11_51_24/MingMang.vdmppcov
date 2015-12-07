@@ -151,7 +151,7 @@ operations
 			(
 				if board.getPieceTypeAtPosition(new Coordinates(counter2, counter1)) = nextPlayer().pieceType then
 				(
-					if hasPossibleMoves(board.getPieceAt(new Coordinates(counter2, counter1))) then
+					if hasPossibleMoves(board.getPieceAt(new Coordinates(counter2, counter1))) = false then
 						return false;
 				);
 				

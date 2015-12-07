@@ -10,6 +10,7 @@ instance variables
 	public numPositions :nat;
 	
 	inv boardSize > 7;
+	inv card board = boardSize;
 
 operations
 	

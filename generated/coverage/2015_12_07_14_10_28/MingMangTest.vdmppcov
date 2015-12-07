@@ -141,6 +141,7 @@ operations
 				mingmangGame.board := boardEnd;
 				mingmangGame.playerX.totalPieces := mingmangGame.board.numPieces(mingmangGame.playerX.pieceType);
 				mingmangGame.playerY.totalPieces := mingmangGame.board.numPieces(mingmangGame.playerY.pieceType);
+				
 				assertTrue(mingmangGame.isGameFinished() = true);
 		);
     

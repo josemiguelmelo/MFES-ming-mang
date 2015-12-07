@@ -106,7 +106,8 @@ operations
 	public canCapture : Position ==> bool
 	canCapture(position) == (
 			return checkHorizontalCapture(position) or checkVerticalCapture(position);
-	);
+	)
+	pre position.pieceType <> Piece`UndefinedType and currentPlayer.pieceType <> position.pieceType;
 	
 	public hasPossibleMoves : Position ==> bool
 	hasPossibleMoves(p) ==

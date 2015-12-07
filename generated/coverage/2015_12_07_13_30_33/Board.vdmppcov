@@ -22,8 +22,7 @@ operations
 		init(playerX, playerY);
 		
 		return self;
-	)
-	post playerX.totalPieces = playerY.totalPieces;
+	);
 	
 	public Board : nat * Player * Player * bool ==> Board
 	Board(board_size, playerX, playerY, allBlack) == (
