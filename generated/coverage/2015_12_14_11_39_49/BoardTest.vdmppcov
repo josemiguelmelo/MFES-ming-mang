@@ -1,0 +1,65 @@
+class BoardTest is subclass of MyTestCase
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+	private boardSize : nat := 8;
+	
+operations
+                
+    
+    private testCompare: () ==> ()
+    testCompare() ==
+    (
+    			dcl board1 : Board := new Board(boardSize);
+    			dcl board2 : Board := new Board(boardSize);
+    			dcl board3 : Board := new Board(boardSize, new Player(8,Piece`WhiteType),new Player(8,Piece`WhiteType));
+          assertTrue(board1.compare(board2));
+          assertTrue(board1.compare(board3) = false);     
+		);
+    
+    private testPieceAt : () ==> ()
+    testPieceAt() ==
+    (
+    			dcl board1 : Board := new Board(boardSize);
+    			assertEqual(board1.getPieceTypeAtPosition(new Coordinates(1,1)), Piece`WhiteType);
+    			assertEqual(board1.getPieceTypeAtPosition(new Coordinates(8,8)), Piece`BlackType);
+    );
+    
+    
+    private testPositionExists : () ==> ()
+    testPositionExists() ==
+    (
+    			dcl board1 : Board := new Board(boardSize);
+    			
+    			assertEqual(board1.posInBoard(new Position(new Coordinates(1,1), Piece`BlackType)), false);
+    			assertEqual(board1.posInBoard(board1.getPieceAt(new Coordinates(1,1))), true);
+    );
+    
+    private testNumPieces : () ==> ()
+    testNumPieces() ==
+    (
+    			dcl board1 : Board := new Board(boardSize);
+    			
+    			assertEqual(board1.numPieces(Piece`WhiteType), (boardSize-1)*2 );
+    			assertEqual(board1.numPieces(Piece`BlackType), (boardSize-1)*2 );
+    );
+    
+    public  runTests: () ==> ()
+    runTests() ==
+    (
+            testCompare();
+            testPieceAt();
+            testPositionExists();
+            testNumPieces();
+    );
+                
+    
+              
+               
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end BoardTest

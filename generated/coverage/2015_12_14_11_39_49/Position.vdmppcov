@@ -1,0 +1,35 @@
+class Position
+
+instance variables
+		
+		public coord : Coordinates;
+		public pieceType : Piece`PieceType;
+		
+operations
+		public Position: Coordinates * Piece`PieceType ==> Position
+  	Position(coordinates, piece) == (coord := coordinates; pieceType := piece; return self;);
+  	
+  	public getX : () ==> nat
+  	getX() == (return coord.x;);
+  	
+  	public getY : () ==> nat
+  	getY() == (return coord.y;);
+  	
+  	public setX : nat ==> ()
+  	setX(xPos) == (coord.setX(xPos));
+  	
+  	public setY : nat ==> ()
+  	setY(yPos) == (coord.setY(yPos));
+  	
+  	
+  	public setPieceType :  Piece`PieceType ==> ()
+  	setPieceType(piece) == (pieceType := piece;);
+  	
+  	
+  	public getPieceType : () ==> Piece`PieceType
+  	getPieceType() == ( return pieceType; );
+  	
+  	public compareToPositionCoordinates : Coordinates ==> bool
+  	compareToPositionCoordinates(coordinates) == ( return coord.compare(coordinates); )
+  	
+end Position
