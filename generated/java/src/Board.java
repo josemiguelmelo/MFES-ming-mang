@@ -25,10 +25,12 @@ public class Board {
     public void cg_init_Board_1(final Number board_size) {
         Player playerX = new Player((board_size.longValue() - 1L) * 2L,
                 Piece.WhiteType);
+        Player playerY = new Player((board_size.longValue() - 1L) * 2L,
+                Piece.BlackType);
         boardSize = board_size;
         board = SetUtil.set();
         numPositions = 0L;
-        init(playerX, playerX);
+        init(playerX, playerY);
 
         return;
     }

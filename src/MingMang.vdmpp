@@ -123,10 +123,10 @@ operations
 		dcl downC : Coordinates := new Coordinates(p.coord.x, p.coord.y);
 		dcl leftC : Coordinates := new Coordinates(p.coord.x, p.coord.y);
 		dcl rightC : Coordinates := new Coordinates(p.coord.x, p.coord.y);
-		upC.y := upC.y-1;
-		downC.y := upC.y+1;
-		leftC.x := upC.x-1;
-		rightC.x := upC.x+1;
+		upC.y := p.coord.y-1;
+		downC.y := p.coord.y+1;
+		leftC.x := p.coord.x-1;
+		rightC.x := p.coord.x+1;
 		
 		if(upC.y < 1) then
 			upC := p.coord;

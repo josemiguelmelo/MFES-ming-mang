@@ -1,5 +1,7 @@
 import org.overture.codegen.runtime.*;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.*;
 
 
@@ -16,6 +18,61 @@ public class MingMang {
     }
 
     public MingMang() {
+    }
+
+
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+
+    private Coordinates readFromCoordinates()
+    {
+        System.out.print("From X Coord: ");
+        int fromY = 0 , fromX = 0;
+
+        try{
+            fromX = Integer.parseInt(br.readLine());
+        }catch(Exception nfe){
+            System.err.println("Invalid Format!");
+        }
+        System.out.print("From Y Coord: ");
+        try{
+            fromY = Integer.parseInt(br.readLine());
+        }catch(Exception nfe){
+            System.err.println("Invalid Format!");
+        }
+
+        return new Coordinates(fromX, fromY);
+    }
+
+    private Coordinates readToCoordinates()
+    {
+        System.out.print("To X Coord: ");
+        int toX = 0, toY = 0;
+        try{
+            toX = Integer.parseInt(br.readLine());
+        }catch(Exception nfe){
+            System.err.println("Invalid Format!");
+        }
+
+        System.out.print("To Y Coord: ");
+        try{
+            toY = Integer.parseInt(br.readLine());
+        }catch(Exception nfe){
+            System.err.println("Invalid Format!");
+        }
+
+        return new Coordinates(toX, toY);
+    }
+
+    public void play() {
+        System.out.println("PLAY");
+        while(!isGameFinished())
+        {
+            printBoard();
+            Coordinates fromCoordinates = readFromCoordinates();
+            Coordinates toCoordinates = readToCoordinates();
+            move(fromCoordinates, toCoordinates);
+        }
     }
 
     public void cg_init_MingMang_1(final Number board_size) {
@@ -160,10 +217,10 @@ public class MingMang {
         Coordinates downC = new Coordinates(p.coord.x, p.coord.y);
         Coordinates leftC = new Coordinates(p.coord.x, p.coord.y);
         Coordinates rightC = new Coordinates(p.coord.x, p.coord.y);
-        upC.y = upC.y.longValue() - 1L;
-        downC.y = upC.y.longValue() + 1L;
-        leftC.x = upC.x.longValue() - 1L;
-        rightC.x = upC.x.longValue() + 1L;
+        upC.y = p.coord.y.longValue() - 1L;
+        downC.y = p.coord.y.longValue() + 1L;
+        leftC.x = p.coord.x.longValue() - 1L;
+        rightC.x = p.coord.x.longValue() + 1L;
 
         if (upC.y.longValue() < 1L) {
             upC = p.coord;
