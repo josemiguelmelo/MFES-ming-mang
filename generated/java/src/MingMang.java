@@ -19,9 +19,7 @@ public class MingMang {
 
     public MingMang() {
     }
-
-
-
+    
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 
@@ -277,13 +275,19 @@ public class MingMang {
         return false;
     }
 
+    public VDMMap getPlayerPieces() {
+        return MapUtil.map(new Maplet(playerX, playerX.totalPieces),
+            new Maplet(playerY, playerY.totalPieces));
+    }
+
     public Boolean isGameFinished() {
         Boolean orResult_7 = false;
 
-        if (Utils.equals(playerX.totalPieces, 0L)) {
+        if (Utils.equals(((Number) Utils.get(getPlayerPieces(), playerX)), 0L)) {
             orResult_7 = true;
         } else {
-            orResult_7 = Utils.equals(playerY.totalPieces, 0L);
+            orResult_7 = Utils.equals(((Number) Utils.get(getPlayerPieces(),
+                        playerY)), 0L);
         }
 
         if (orResult_7) {

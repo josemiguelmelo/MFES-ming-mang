@@ -97,7 +97,7 @@ operations
 	public getPieceAt : Coordinates ==> Position
 	getPieceAt(coord) ==
 	(
-			return iota position in set board & position.compareToPositionCoordinates(coord)
+			return iota position in set board & position.compareToPositionCoordinates(coord);
 	)
 	pre boardSize >= coord.x and boardSize >= coord.y;
 
