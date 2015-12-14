@@ -1,0 +1,37 @@
+class Player
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+	public pieceType : Piece`PieceType;
+	public totalPieces : nat;
+	
+	inv totalPieces >= 0;
+	
+	
+	
+operations
+
+	public Player : nat * Piece`PieceType ==> Player
+	Player(numPieces, piece) == (
+		totalPieces := numPieces;
+		pieceType := piece;
+		return self;
+	);
+	
+	public getTotalPieces : () ==> nat
+	getTotalPieces() == ( return totalPieces; );
+	
+	public getPieceType : () ==> Piece`PieceType
+	getPieceType() == ( return pieceType; );
+	
+	
+	
+	public decNumPieces : () ==> ()
+	decNumPieces() == ( totalPieces := totalPieces - 1; );
+	public incNumPieces : () ==> ()
+	incNumPieces() == ( totalPieces := totalPieces + 1; );
+	
+	
+end Player

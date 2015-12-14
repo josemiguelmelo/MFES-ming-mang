@@ -162,6 +162,7 @@ operations
 	
 	public isGameFinished : () ==> bool
 	isGameFinished() == (
+		IO`print(getPlayerPieces()(playerX));
 		if(getPlayerPieces()(playerX) = 0 or getPlayerPieces()(playerY) = 0) then return true;
 		
 		for counter1 = 1 to board.boardSize do

@@ -27,7 +27,6 @@ operations
 		boards_history := [board.clone()];
 		
 		
-		
 		return self;
 	)
 	pre board_size > Board`MinBoardSize
@@ -155,14 +154,9 @@ operations
 		return false;
 	);
 	
-	public getPlayerPieces: () ==> map Player to nat
-	getPlayerPieces() == (
-			return { playerX |-> playerX.totalPieces , playerY |-> playerY.totalPieces }
-	);
-	
 	public isGameFinished : () ==> bool
 	isGameFinished() == (
-		if(getPlayerPieces()(playerX) = 0 or getPlayerPieces()(playerY) = 0) then return true;
+		if(playerX.totalPieces = 0 or playerY.totalPieces = 0) then return true;
 		
 		for counter1 = 1 to board.boardSize do
 		(
@@ -245,5 +239,8 @@ operations
 	and fromPosition.pieceType = currentPlayer.pieceType
 	post board.numPositions = board.boardSize * board.boardSize ;
 	
+functions
 
+traces
+-- TODO Define Combinatorial Test Traces here
 end MingMang
