@@ -1,0 +1,38 @@
+class BoardTest is subclass of MyTestCase
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+	private boardSize : nat := 8;
+	
+operations
+                
+    
+    private testCompare: () ==> ()
+    testCompare() ==
+    (
+    			dcl board1 : Board := new Board(boardSize);
+    			dcl board2 : Board := new Board(boardSize);
+          assertTrue(board1.compare(board2));
+		
+		);
+    
+    
+    
+    public static main: () ==> ()
+    main() ==
+    (
+            dcl test : BoardTest := new BoardTest();
+            test.testCompare();
+            
+    );
+                
+    
+              
+               
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end BoardTest

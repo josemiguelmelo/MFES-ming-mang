@@ -1,0 +1,27 @@
+class TestAll is subclass of MyTestCase
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+	private boardSize : nat := 8;
+	
+operations
+    
+    public static main: () ==> ()
+    main() ==
+    (
+            dcl board_test : BoardTest := new BoardTest();
+            dcl ming_mang_test : MingMangTest := new MingMangTest();
+            ming_mang_test.runTests();
+            board_test.runTests();
+    );
+                
+    
+              
+               
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end TestAll

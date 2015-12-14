@@ -32,8 +32,4 @@ class Piece
 	  public setPlayer : Player ==> ()
 	  setPlayer(pla) == (player := pla;)
     
-	functions
-	-- TODO Define functiones here
-	traces
-	-- TODO Define Combinatorial Test Traces here
 end Piece

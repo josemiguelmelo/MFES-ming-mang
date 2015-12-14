@@ -34,8 +34,4 @@ operations
 	incNumPieces() == ( totalPieces := totalPieces + 1; );
 	
 	
-functions
--- TODO Define functiones here
-traces
--- TODO Define Combinatorial Test Traces here
 end Player

@@ -1,8 +1,5 @@
 class Position
-types
--- TODO Define types here
-values
--- TODO Define values here
+
 instance variables
 		
 		public coord : Coordinates;
@@ -35,8 +32,4 @@ operations
   	public compareToPositionCoordinates : Coordinates ==> bool
   	compareToPositionCoordinates(coordinates) == ( return coord.compare(coordinates); )
   	
-functions
--- TODO Define functiones here
-traces
--- TODO Define Combinatorial Test Traces here
 end Position
