@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="codegen-runtime-sources">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/codegen-runtime.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/codegen-runtime-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

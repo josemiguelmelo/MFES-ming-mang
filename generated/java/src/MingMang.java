@@ -1,6 +1,5 @@
 import org.overture.codegen.runtime.*;
 
-import java.io.*;
 import java.util.*;
 
 
@@ -10,67 +9,7 @@ public class MingMang {
     public Player playerX;
     public Player playerY;
     public Player currentPlayer;
-
-
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-    public static void main(String[] args)
-    {
-    	MingMang m = new MingMang(8);
-    	m.play();
-    }
-    
-    
-private Coordinates readFromCoordinates()
-{
-    System.out.print("From X Coord: ");
-    int fromY = 0 , fromX = 0;
-
-    try{
-        fromX = Integer.parseInt(br.readLine());
-    }catch(Exception nfe){
-        System.err.println("Invalid Format!");
-    }
-    System.out.print("From Y Coord: ");
-    try{
-        fromY = Integer.parseInt(br.readLine());
-    }catch(Exception nfe){
-        System.err.println("Invalid Format!");
-    }
-
-    return new Coordinates(fromX, fromY);
-}
-
-private Coordinates readToCoordinates()
-{
-    System.out.print("To X Coord: ");
-    int toX = 0, toY = 0;
-    try{
-        toX = Integer.parseInt(br.readLine());
-    }catch(Exception nfe){
-        System.err.println("Invalid Format!");
-    }
-
-    System.out.print("To Y Coord: ");
-    try{
-        toY = Integer.parseInt(br.readLine());
-    }catch(Exception nfe){
-        System.err.println("Invalid Format!");
-    }
-
-    return new Coordinates(toX, toY);
-}
-
-public void play() {
-	System.out.println("PLAY");
-    while(!isGameFinished())
-    {
-        printBoard();
-        Coordinates fromCoordinates = readFromCoordinates();
-        Coordinates toCoordinates = readToCoordinates();
-        move(fromCoordinates, toCoordinates);
-    }
-}
+    public VDMSeq boards_history;
 
     public MingMang(final Number board_size) {
         cg_init_MingMang_1(board_size);
@@ -85,6 +24,7 @@ public void play() {
         playerY = new Player(playerPieces, Piece.BlackType);
         currentPlayer = playerX;
         board = new Board(board_size, playerX, playerY);
+        boards_history = SeqUtil.seq(board.clone());
 
         return;
     }
@@ -92,12 +32,12 @@ public void play() {
     public void printBoard() {
         IO.print("\n");
 
-        long toVar_6 = board.boardSize.longValue();
+        long toVar_4 = board.boardSize.longValue();
 
-        for (Long counter1 = 1L; counter1 <= toVar_6; counter1++) {
-            long toVar_5 = board.boardSize.longValue();
+        for (Long counter1 = 1L; counter1 <= toVar_4; counter1++) {
+            long toVar_3 = board.boardSize.longValue();
 
-            for (Long counter2 = 1L; counter2 <= toVar_5; counter2++) {
+            for (Long counter2 = 1L; counter2 <= toVar_3; counter2++) {
                 IO.print(((Object) board.getPieceTypeAtPosition(
                         new Coordinates(counter2, counter1))));
             }
@@ -140,31 +80,31 @@ public void play() {
                     1L, pos.coord.y));
         Position leftPos = board.getPieceAt(new Coordinates(pos.coord.x.longValue() -
                     1L, pos.coord.y));
-        Boolean andResult_7 = false;
+        Boolean andResult_10 = false;
 
         if (!(Utils.equals(rightPos.pieceType, Piece.UndefinedType))) {
-            Boolean andResult_8 = false;
+            Boolean andResult_11 = false;
 
             if (!(Utils.equals(leftPos.pieceType, Piece.UndefinedType))) {
-                Boolean andResult_9 = false;
+                Boolean andResult_12 = false;
 
                 if (!(Utils.equals(rightPos.pieceType, pos.pieceType))) {
                     if (!(Utils.equals(leftPos.pieceType, pos.pieceType))) {
-                        andResult_9 = true;
+                        andResult_12 = true;
                     }
                 }
 
-                if (andResult_9) {
-                    andResult_8 = true;
+                if (andResult_12) {
+                    andResult_11 = true;
                 }
             }
 
-            if (andResult_8) {
-                andResult_7 = true;
+            if (andResult_11) {
+                andResult_10 = true;
             }
         }
 
-        return andResult_7;
+        return andResult_10;
     }
 
     public Boolean checkVerticalCapture(final Position pos) {
@@ -172,31 +112,31 @@ public void play() {
                     pos.coord.y.longValue() + 1L));
         Position leftPos = board.getPieceAt(new Coordinates(pos.coord.x,
                     pos.coord.y.longValue() - 1L));
-        Boolean andResult_11 = false;
+        Boolean andResult_14 = false;
 
         if (!(Utils.equals(rightPos.pieceType, Piece.UndefinedType))) {
-            Boolean andResult_12 = false;
+            Boolean andResult_15 = false;
 
             if (!(Utils.equals(leftPos.pieceType, Piece.UndefinedType))) {
-                Boolean andResult_13 = false;
+                Boolean andResult_16 = false;
 
                 if (!(Utils.equals(rightPos.pieceType, pos.pieceType))) {
                     if (!(Utils.equals(leftPos.pieceType, pos.pieceType))) {
-                        andResult_13 = true;
+                        andResult_16 = true;
                     }
                 }
 
-                if (andResult_13) {
-                    andResult_12 = true;
+                if (andResult_16) {
+                    andResult_15 = true;
                 }
             }
 
-            if (andResult_12) {
-                andResult_11 = true;
+            if (andResult_15) {
+                andResult_14 = true;
             }
         }
 
-        return andResult_11;
+        return andResult_14;
     }
 
     public Boolean canCapture(final Position position) {
@@ -216,14 +156,31 @@ public void play() {
         Position downPos = null;
         Position leftPos = null;
         Position rightPos = null;
-        Coordinates upC = p.coord;
-        Coordinates downC = p.coord;
-        Coordinates leftC = p.coord;
-        Coordinates rightC = p.coord;
+        Coordinates upC = new Coordinates(p.coord.x, p.coord.y);
+        Coordinates downC = new Coordinates(p.coord.x, p.coord.y);
+        Coordinates leftC = new Coordinates(p.coord.x, p.coord.y);
+        Coordinates rightC = new Coordinates(p.coord.x, p.coord.y);
         upC.y = upC.y.longValue() - 1L;
         downC.y = upC.y.longValue() + 1L;
         leftC.x = upC.x.longValue() - 1L;
         rightC.x = upC.x.longValue() + 1L;
+
+        if (upC.y.longValue() < 1L) {
+            upC = p.coord;
+        }
+
+        if (downC.y.longValue() > board.boardSize.longValue()) {
+            downC = p.coord;
+        }
+
+        if (leftC.x.longValue() < 1L) {
+            rightC = p.coord;
+        }
+
+        if (rightC.x.longValue() > board.boardSize.longValue()) {
+            rightC = p.coord;
+        }
+
         upPos = board.getPieceAt(upC);
         downPos = board.getPieceAt(downC);
         leftPos = board.getPieceAt(leftC);
@@ -231,21 +188,21 @@ public void play() {
 
         Boolean orResult_4 = false;
 
-        if (!(Utils.equals(upPos.pieceType, Piece.UndefinedType))) {
+        if (Utils.equals(upPos.pieceType, Piece.UndefinedType)) {
             orResult_4 = true;
         } else {
             Boolean orResult_5 = false;
 
-            if (!(Utils.equals(downPos.pieceType, Piece.UndefinedType))) {
+            if (Utils.equals(downPos.pieceType, Piece.UndefinedType)) {
                 orResult_5 = true;
             } else {
                 Boolean orResult_6 = false;
 
-                if (!(Utils.equals(leftPos.pieceType, Piece.UndefinedType))) {
+                if (Utils.equals(leftPos.pieceType, Piece.UndefinedType)) {
                     orResult_6 = true;
                 } else {
-                    orResult_6 = !(Utils.equals(rightPos.pieceType,
-                            Piece.UndefinedType));
+                    orResult_6 = Utils.equals(rightPos.pieceType,
+                            Piece.UndefinedType);
                 }
 
                 orResult_5 = orResult_6;
@@ -274,12 +231,12 @@ public void play() {
             return true;
         }
 
-        long toVar_8 = board.boardSize.longValue();
+        long toVar_6 = board.boardSize.longValue();
 
-        for (Long counter1 = 1L; counter1 <= toVar_8; counter1++) {
-            long toVar_7 = board.boardSize.longValue();
+        for (Long counter1 = 1L; counter1 <= toVar_6; counter1++) {
+            long toVar_5 = board.boardSize.longValue();
 
-            for (Long counter2 = 1L; counter2 <= toVar_7; counter2++) {
+            for (Long counter2 = 1L; counter2 <= toVar_5; counter2++) {
                 if (Utils.equals(board.getPieceTypeAtPosition(
                                 new Coordinates(counter2, counter1)),
                             nextPlayer().pieceType)) {
@@ -295,9 +252,7 @@ public void play() {
     }
 
     public void capture(final Position toEat, final Object playerWillEat) {
-        board.removePosition(toEat);
         toEat.setPieceType(playerWillEat);
-        board.insertPosition(toEat);
 
         if (Utils.equals(currentPlayer, playerX)) {
             playerX.totalPieces = playerX.totalPieces.longValue() + 1L;
@@ -311,55 +266,54 @@ public void play() {
     }
 
     public void move(final Coordinates fromC, final Coordinates toC) {
-        Player player = null;
-        movePiece(board.getPieceAt(fromC), board.getPieceAt(toC));
-        player = changeCurrentPlayer();
+        if (movePiece(board.getPieceAt(fromC), board.getPieceAt(toC))) {
+            currentPlayer = changeCurrentPlayer();
+        }
     }
 
-    public void movePiece(final Position fromPosition, final Position toPosition) {
-        board.removePosition(toPosition);
-        board.removePosition(fromPosition);
-        board.insertPosition(new Position(toPosition.coord,
-                ((Object) currentPlayer.getPieceType())));
-        board.insertPosition(emptyPosition(fromPosition.coord));
+    public Boolean movePiece(final Position fromPosition,
+        final Position toPosition) {
+        Object pieceTypeAux = fromPosition.pieceType;
+        fromPosition.setPieceType(toPosition.pieceType);
+        toPosition.setPieceType(pieceTypeAux);
 
-        for (Iterator iterator_3 = board.board.iterator();
-                iterator_3.hasNext();) {
-            Position pos = (Position) iterator_3.next();
-            Boolean andResult_21 = false;
+        for (Iterator iterator_6 = board.board.iterator();
+                iterator_6.hasNext();) {
+            Position pos = (Position) iterator_6.next();
+            Boolean andResult_24 = false;
 
             if (pos.coord.x.longValue() > 1L) {
-                Boolean andResult_22 = false;
+                Boolean andResult_25 = false;
 
-                if (pos.coord.x.longValue() < 8L) {
-                    Boolean andResult_23 = false;
+                if (pos.coord.x.longValue() < board.boardSize.longValue()) {
+                    Boolean andResult_26 = false;
 
                     if (pos.coord.y.longValue() > 1L) {
-                        Boolean andResult_24 = false;
+                        Boolean andResult_27 = false;
 
-                        if (pos.coord.y.longValue() < 8L) {
+                        if (pos.coord.y.longValue() < board.boardSize.longValue()) {
                             if (!(Utils.equals(pos.pieceType,
                                         Piece.UndefinedType))) {
-                                andResult_24 = true;
+                                andResult_27 = true;
                             }
                         }
 
-                        if (andResult_24) {
-                            andResult_23 = true;
+                        if (andResult_27) {
+                            andResult_26 = true;
                         }
                     }
 
-                    if (andResult_23) {
-                        andResult_22 = true;
+                    if (andResult_26) {
+                        andResult_25 = true;
                     }
                 }
 
-                if (andResult_22) {
-                    andResult_21 = true;
+                if (andResult_25) {
+                    andResult_24 = true;
                 }
             }
 
-            if (andResult_21) {
+            if (andResult_24) {
                 if (canCapture(pos)) {
                     capture(pos,
                         ((Object) getOtherPlayerPieceType(
@@ -368,13 +322,30 @@ public void play() {
             }
         }
 
-        return;
+        for (Iterator iterator_7 = boards_history.iterator();
+                iterator_7.hasNext();) {
+            Board b = (Board) iterator_7.next();
+
+            if (b.compare(board)) {
+                pieceTypeAux = fromPosition.pieceType;
+                fromPosition.setPieceType(toPosition.pieceType);
+                toPosition.setPieceType(pieceTypeAux);
+
+                return false;
+            }
+        }
+
+        boards_history = SeqUtil.conc(Utils.copy(boards_history),
+                SeqUtil.seq(board.clone()));
+
+        return true;
     }
 
     public String toString() {
         return "MingMang{" + "board := " + Utils.toString(board) +
         ", playerX := " + Utils.toString(playerX) + ", playerY := " +
         Utils.toString(playerY) + ", currentPlayer := " +
-        Utils.toString(currentPlayer) + "}";
+        Utils.toString(currentPlayer) + ", boards_history := " +
+        Utils.toString(boards_history) + "}";
     }
 }
