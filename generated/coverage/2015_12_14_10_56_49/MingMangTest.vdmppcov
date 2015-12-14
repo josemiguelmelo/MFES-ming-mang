@@ -109,7 +109,7 @@ operations
 					
 					assertTrue(currentPlayer <> initialPlayer);
 					assertEqual(pieceTo , currentPlayer.pieceType ); 
-					assertEqual(pieceFrom , Piece`UndefinedType);
+					assertTrue(pieceFrom = Piece`UndefinedType);
 				);
 		);
     
@@ -132,8 +132,8 @@ operations
     		
     		newGame.move(new Coordinates(5,7), new Coordinates(8,7));
     		
-    		assertEqual(boardHistorySize , len newGame.boards_history);
-    		assertEqual(player , newGame.currentPlayer);
+    		assertTrue(boardHistorySize = len newGame.boards_history);
+    		assertTrue(player = newGame.currentPlayer);
 				
     );
     
@@ -147,12 +147,12 @@ operations
 				mingmangGame.playerX.totalPieces := mingmangGame.board.numPieces(mingmangGame.playerX.pieceType);
 				mingmangGame.playerY.totalPieces := mingmangGame.board.numPieces(mingmangGame.playerY.pieceType);
 				
-				assertEqual(mingmangGame.isGameFinished() , false);
+				assertTrue(mingmangGame.isGameFinished() = false);
 				
 				mingmangGame.board := boardEnd;
 				mingmangGame.playerX.totalPieces := mingmangGame.board.numPieces(mingmangGame.playerX.pieceType);
 				mingmangGame.playerY.totalPieces := mingmangGame.board.numPieces(mingmangGame.playerY.pieceType);
-				assertEqual(mingmangGame.isGameFinished() , true);
+				assertTrue(mingmangGame.isGameFinished() = true);
 		);
     
     
